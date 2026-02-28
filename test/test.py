@@ -1,8 +1,8 @@
 import threading
 import sys
 import os
-# SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-# sys.path.append(os.path.dirname(SCRIPT_DIR))
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
 from app.services.ExtractionOptions import getThumbnail, extract_video_info, extract_playlist_info, get_available_quality
 from app.services.DownloadOptions import download_video, download_age_restricted_video, download_audio
 import threading
@@ -40,38 +40,39 @@ class ThreadWithReturnValue(threading.Thread):
 # print(vid_info.video_info.title)
 # print(vid_info.available_resolutions)
 
-# input_url2 = input("Enter youtube video url: ")
-# availbale_quality = get_available_quality(input_url)
-# available_extensions = {"mp4","webm","mkv"}
-# print("available extensions: ",available_extensions)
+input_url2 = input("Enter youtube video url: ")
+availbale_quality = get_available_quality(input_url2)
+available_extensions = {"mp4","webm","mkv"}
+print("available extensions: ",available_extensions)
 # print(availbale_quality)
-# print("available quality: ")
-# for count,quality in enumerate(availbale_quality,1):
-#     print(f"{count}. {quality[0]}x{quality[1]}")    
+print("available quality: ")
+for count,quality in enumerate(availbale_quality,1):
+    print(f"{count}. {quality[0]}x{quality[1]}")    
 
-# quality = input("Enter video quality: ")
-# extension = input("Enter video extension: ")
-# t1 = ThreadWithReturnValue(target=download_video, args=(input_url,quality,extension,))
+quality = input("Enter video quality: ")
+extension = input("Enter video extension: ")
+t1 = ThreadWithReturnValue(target=download_video, args=(input_url2,quality,extension,))
 # t1 = ThreadWithReturnValue(target=download_audio, args=(input_url,))
 # t1 = ThreadWithReturnValue(target=extract_video_info, args=(input_url2,))
-t1 = ThreadWithReturnValue(target=extract_playlist_info, args=(playlist_url,))
+# t1 = ThreadWithReturnValue(target=extract_playlist_info, args=(input_url2,))
 # t2 = ThreadWithReturnValue(target=extract_video_info, args=(input_url2,))
-t1.start()
 # t2.start()
 # time.sleep(1)
 # t1._stop()
-info, pl = t1.join()
+t1.start()
+# info, pl = t1.join()
+info = t1.join()
 # info2 = t2.join()
-for line in pl.stdout:
+# for line in pl.stdout:
     # print(f"\r{line.strip():<150}", end="",flush=True) # make sure the progress is printied on the same line
     # print(line.strip())
-    print(line)
+    # print(line)
     # print(info2.stdout)
 print("\n\n")
 
 for line in info.stdout:
-    # print(f"\r{line.strip():<150}", end="",flush=True) # make sure the progress is printied on the same line
-    print(line.strip())
+    print(f"\r{line.strip():<150}", end="",flush=True) # make sure the progress is printied on the same line
+    # print(line.strip())
     # print(info2.stdout)
 
 # for line in info2.stdout:
